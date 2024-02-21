@@ -50,7 +50,7 @@ export default function Form() {
 }
 
 const convertDecimalToBinary = (x: number): string => {
-  let result = "1"
+  let result = "0"
   let remainder = 0;
   let found = false;
   let i0 = 0;
@@ -64,6 +64,9 @@ const convertDecimalToBinary = (x: number): string => {
     }
   }
   let mostSignificantPower = i0-1;
+  if (mostSignificantPower > 0) {
+    result = "1"
+  }
   remainder = x-2**mostSignificantPower;
 
   for (let i1 = i0-2; i1 >= 0; i1--) {
