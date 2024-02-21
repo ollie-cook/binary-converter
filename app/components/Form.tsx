@@ -5,15 +5,16 @@ import { useState, useEffect } from 'react'
 export default function Form() {
   const [mode, setMode] = useState('toBinary')
   const [number, setNumber] = useState<number>(0)
-  const [convertedNumber, setConvertedNumber] = useState<number>(0)
+  const [convertedNumber, setConvertedNumber] = useState<string>("0")
 
   useEffect(() => {
     if (mode === 'toBinary') {
-      setConvertedNumber(parseInt(number.toString(2)))
+      //setConvertedNumber(parseInt(number.toString(2)))
+      setConvertedNumber(convertDecimalToBinary(number))
     } else {
       let binaryString = number.toString(2)
-      let decimalNumber = parseInt(binaryString, 2)
-      setConvertedNumber(decimalNumber)
+      let decimalString = parseInt(binaryString, 2).toString()
+      setConvertedNumber(decimalString)
     }
   }, [mode, number])
 
@@ -48,4 +49,33 @@ export default function Form() {
       </div>
     </div>
   )
+}
+
+const convertDecimalToBinary = (x: number): string => {
+  let result = "1"
+  let remainder = 0;
+  let found = false;
+  let i0 = 0;
+
+  //figure out biggest power of 2
+  while (found == false) {
+    if (2**i0 <= x) {
+      i0++;
+    } else {
+      found = true
+    }
+  }
+  let mostSignificantPower = i0-1;
+  remainder = x-2**mostSignificantPower;
+
+  for (let i1 = i0-2; i1 >= 0; i1--) {
+    if (2**i1 > remainder) {
+      result += "0";
+    } else {
+      result +="1";
+      remainder -= 2**i1;
+    }
+  }
+
+  return result
 }
