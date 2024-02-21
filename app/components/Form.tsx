@@ -12,9 +12,7 @@ export default function Form() {
       //setConvertedNumber(parseInt(number.toString(2)))
       setConvertedNumber(convertDecimalToBinary(number))
     } else {
-      let binaryString = number.toString(2)
-      let decimalString = parseInt(binaryString, 2).toString()
-      setConvertedNumber(decimalString)
+      setConvertedNumber(convertBinaryToDecimal(number))
     }
   }, [mode, number])
 
@@ -78,4 +76,18 @@ const convertDecimalToBinary = (x: number): string => {
   }
 
   return result
+}
+
+const convertBinaryToDecimal = (x: number): string => {
+  let resultNumber = 0;
+  let xString = x.toString();
+  let digitsStringArray = Array.from(xString);
+  let digitsNumberArray = digitsStringArray.map(digit => Number(digit))
+  let reversedDigitsNumberArray = digitsNumberArray.reverse();
+
+  reversedDigitsNumberArray.forEach((digit, index) => {
+    resultNumber += digit*(2**index)
+  })
+
+  return resultNumber.toString()
 }
